@@ -24,3 +24,16 @@ To get started, you can follow these steps:
 * Prepare a set of voice recordings for training and validation, and split them into embeddings and validation sets (using the split_dataset.py script provided).
 * Register your voice by recording a set of phrases and extracting the embeddings, using the get-embeddings.py script.
 * Test the system by running python identify.py and providing a voice recording to identify.
+
+## Contribution guidelines
+If you want to contribute to the voice recognition system, you can:
+
+* Submit bug reports or feature requests through the GitHub issues tracker.
+* Fork the repository and submit pull requests with your improvements or fixes.
+* Please note that the voice recognition system is licensed under the MIT license, and all contributions must comply with its terms.
+
+## Acknowledgments
+The voice recognition system was inspired by the work of many researchers and developers in the fields of voice recognition and identification and machine learning. We thank them for their contributions to the open source community.
+
+## License
+The repo is released under the MIT License.
