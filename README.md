@@ -1,6 +1,7 @@
 # HumanexAI Voice Recognition
 This is a voice recognition system that uses machine learning techniques to identify the identity of a speaker based on their voice. It is built using Python and the Resemblyzer library, and uses a pretrained deep learning model to extract voice embeddings and a random forest classifier to compare them with registered embeddings.
 
+
 ![repo-cover](repo-cover.jpg)
 
 ## Features
