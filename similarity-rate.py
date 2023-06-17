@@ -6,8 +6,8 @@ from sklearn.metrics.pairwise import cosine_similarity
 encoder = resemblyzer.VoiceEncoder()
 
 # Encode speech into embeddings
-wav_file_1 = "/home/jawabreh/Desktop/voice-recognition/data/val/Milena/milena-7.wav"
-wav_file_2 = "/home/jawabreh/Desktop/voice-recognition/data/val/Ravilya/ravilya-7.wav"
+wav_file_1 = "/home/jawabreh/Desktop/HumaneX_AI/voice-recognition/data/train/793434506/3.wav"
+wav_file_2 = "/home/jawabreh/Desktop/HumaneX_AI/voice-recognition/data/train/793434506/7.wav"
 emb_1 = encoder.embed_utterance(resemblyzer.preprocess_wav(wav_file_1))
 emb_2 = encoder.embed_utterance(resemblyzer.preprocess_wav(wav_file_2))
 

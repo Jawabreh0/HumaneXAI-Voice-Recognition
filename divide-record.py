@@ -3,7 +3,7 @@ import soundfile as sf
 import librosa
 
 # Define the input file path
-input_file = "//home/jawabreh/Desktop/voice-recognition/data/scan/Milena/training-one.wav"
+input_file = "/home/jawabreh/Desktop/HumaneX_AI/voice-recognition/data/scan/Milena/Milena_Abstract.wav"
 
 # Define the output directory
 output_directory = "/home/jawabreh/Desktop/sds"

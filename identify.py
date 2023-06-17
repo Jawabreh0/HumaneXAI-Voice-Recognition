@@ -1,47 +1,54 @@
 import numpy as np
-import joblib
-from resemblyzer import preprocess_wav, VoiceEncoder
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.preprocessing import StandardScaler
+import resemblyzer
+from sklearn.svm import SVC
 
-# load the embeddings and labels
-data = np.load("/home/jawabreh/Desktop/voice-recognition/voice_embeddings.npz")
-embeddings = data["embeddings"]
-labels = data["labels"]
+# Load the pre-trained model
+encoder = resemblyzer.VoiceEncoder()
 
-# train the random forest classifier
-scaler = StandardScaler()
-X_train = scaler.fit_transform(embeddings)
-y_train = labels
-clf = RandomForestClassifier(n_estimators=100, random_state=42)
-clf.fit(X_train, y_train)
+# Define the npz file path
+npz_file = "/home/jawabreh/Desktop/HumaneX_AI/voice-recognition/voice-embeddings.npz"
 
-# save the classifier and scaler to files
-joblib.dump(clf, "random_forest.joblib")
-joblib.dump(scaler, "scaler.joblib")
+# Load the training set embeddings and labels from the npz file
+data = np.load(npz_file)
+X_train = data['embeddings']
+y_train = data['labels']
 
-# load the classifier and scaler from files
-clf = joblib.load("random_forest.joblib")
-scaler = joblib.load("scaler.joblib")
+# Process the input voice recording and extract its embeddings
+def process_voice_recording(file_path):
+    wav = resemblyzer.preprocess_wav(file_path)
+    emb = encoder.embed_utterance(wav)
+    return emb
 
-# load the voice encoder model
-encoder = VoiceEncoder()
+# Train an SVM classifier on the training set embeddings and labels
+svm = SVC(kernel='linear', probability=True)
+svm.fit(X_train, y_train)
 
-# define a function to predict the identity of a voice recording
-def predict_identity(audio_path, threshold=0.8):
-    wav = preprocess_wav(audio_path)
-    embedding = encoder.embed_utterance(wav)
-    embedding_scaled = scaler.transform(embedding.reshape(1, -1))
-    prediction = clf.predict_proba(embedding_scaled)
-    identity = clf.classes_[np.argmax(prediction)]
-    confidence = np.max(prediction)
-    if confidence >= threshold:
-        return identity, confidence
-    else:
-        return "Unknown", confidence
+# Set the threshold for the confidence score
+threshold = 0.8
 
-# usage example
-audio_path = "/home/jawabreh/Desktop/voice-recognition/data/val/Unknown/2.flac"
-identity, confidence = predict_identity(audio_path)
-print("Predicted identity:", identity)
-print("Confidence:", confidence)
+# Predict the identity of the input voice recording using the trained SVM classifier
+def predict_identity(input_embeddings):
+    predicted_identity = svm.predict(input_embeddings.reshape(1, -1))
+    confidence_scores = svm.predict_proba(input_embeddings.reshape(1, -1))
+    max_confidence_score = np.max(confidence_scores)
+    
+    if max_confidence_score < threshold:
+        predicted_identity = "Unknown"
+    
+    return predicted_identity, max_confidence_score
+
+# Provide the path of the input voice recording file
+input_file_path = "/home/jawabreh/Desktop/HumaneX_AI/voice-recognition/data/test/998800274/3.wav"
+
+# Process the input voice recording
+input_embeddings = process_voice_recording(input_file_path)
+
+# Predict the identity and confidence score of the input voice recording
+predicted_identity, confidence_score = predict_identity(input_embeddings)
+
+# Check if the predicted identity is "Unknown"
+if predicted_identity == "Unknown":
+    print("The identity is unknown.")
+else:
+    print("Predicted Identity:", predicted_identity)
+    print("Confidence Score:", confidence_score)

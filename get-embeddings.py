@@ -6,8 +6,8 @@ import os
 encoder = resemblyzer.VoiceEncoder()
 
 # Define directories
-train_dir = "/home/jawabreh/Desktop/voice-recognition/data/train"
-npz_file = "/home/jawabreh/Desktop/voice-recognition/voice-embeddings.npz"
+train_dir = "/home/jawabreh/Desktop/HumaneX_AI/voice-recognition/data/train"
+npz_file = "/home/jawabreh/Desktop/HumaneX_AI/voice-recognition/voice-embeddings.npz"
 
 # Initialize lists to hold embeddings and labels
 embeddings = []

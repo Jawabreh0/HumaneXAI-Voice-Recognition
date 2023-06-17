@@ -4,8 +4,10 @@ from itertools import groupby
 from pathlib import Path
 from tqdm import tqdm
 import numpy as np
+import matplotlib
+matplotlib.use('QtAgg')
 
-wav_fpaths = list(Path("data", "val").glob("**/*.wav"))
+wav_fpaths = list(Path("data", "test").glob("**/*.wav"))
 speakers = list(map(lambda wav_fpath: wav_fpath.parent.stem, wav_fpaths))
 wavs = np.array(list(map(preprocess_wav, tqdm(wav_fpaths, "Preprocessing wavs", len(wav_fpaths)))))
 speaker_wavs = {speaker: wavs[list(indices)] for speaker, indices in 
